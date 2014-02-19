@@ -23,7 +23,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
  *
  * @author Michael Haynes <mike@mjphaynes.com>
  */
-class Command extends SymfonyCommand {
+abstract class Command extends SymfonyCommand {
 
 	/**
 	 * @var Logger  The logger instance
