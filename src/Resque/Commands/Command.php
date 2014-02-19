@@ -80,7 +80,7 @@ abstract class Command extends SymfonyCommand {
 				new InputOption('scheme', null, InputOption::VALUE_REQUIRED, 'The Redis scheme to use.', Resque\Redis::DEFAULT_SCHEME),
 				new InputOption('namespace', null, InputOption::VALUE_REQUIRED, 'The Redis namespace to use. This is prefixed to all keys.', Resque\Redis::DEFAULT_NS),
 				new InputOption('log', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the handler(s) to use for logging.'),
-				new InputOption('events', 'e', InputOption::VALUE_NONE, 'Outputs all events to the console, for debugging.'),
+				new InputOption('events', 'E', InputOption::VALUE_NONE, 'Outputs all events to the console, for debugging.'),
 			)
 		);
 	}
