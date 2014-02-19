@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This file is part of the php-resque package.
  *
@@ -16,13 +16,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
  * Main Command class
  *
  * @author Michael Haynes <mike@mjphaynes.com>
  */
-class Command extends \Symfony\Component\Console\Command\Command {
+class Command extends SymfonyCommand {
 
 	/**
 	 * @var Logger  The logger instance
@@ -127,14 +128,14 @@ class Command extends \Symfony\Component\Console\Command\Command {
 		}
 
 		$this->logger = $logger = new Resque\Logger($handlers);
-		
+
 		// Unset some variables so as not to pass to include file
 		unset($logs, $handlerConnector, $handlers);
 
 		// Include file?
 		if (array_key_exists('include', $config) and strlen($include = $config['include'])) {
 			if (
-				!($includeFile = realpath(dirname($include).'/'.basename($include))) or 
+				!($includeFile = realpath(dirname($include).'/'.basename($include))) or
 				!is_readable($includeFile) or !is_file($includeFile) or
 				substr($includeFile, -4) !== '.php'
 			) {
@@ -143,13 +144,13 @@ class Command extends \Symfony\Component\Console\Command\Command {
 
 			try {
 				require_once $includeFile;
-				
+
 			} catch (\Exception $e) {
 				throw new \RuntimeException('The include file "'.$include.'" threw an exception: "'.$e->getMessage().'" on line '.$e->getLine());
 			}
 		}
-		
-		// This outputs all the events that are fired, useful for learning 
+
+		// This outputs all the events that are fired, useful for learning
 		// about when events are fired in the command flow
 		if (array_key_exists('events', $config) and $config['events'] === true) {
 			Resque\Event::listen('*', function($event) use ($output) {
@@ -186,7 +187,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 	public function log() {
 		return call_user_func_array(array($this->logger, 'log'), func_get_args());
 	}
-	
+
 	/**
 	 * Parses the configuration file
 	 *
@@ -198,7 +199,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 
 			foreach ($config as $key => &$value) {
 				// If the config value is equal to the default value set in the command then
-				// have a look at the config file. This is so that the config options can be 
+				// have a look at the config file. This is so that the config options can be
 				// over-ridden in the command line.
 				if (
 					isset($this->configOptionMap[$key]) and
@@ -242,7 +243,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns all config items or a specific one
 	 *
@@ -253,7 +254,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 			if (!array_key_exists($key, $this->config)) {
 				throw new \InvalidArgumentException('Config key "'.$key.'" does not exist. Valid keys are: "'.implode(', ', array_keys($this->config)).'"');
 			}
-			
+
 			return $this->config[$key];
 		}
 
